@@ -1,12 +1,25 @@
-const API = "https://script.google.com/macros/s/AKfycbxQy7XkoVN-ywTo0ylfPy97eeM925IXgKQ9KKALbAOSRVxLPLKS6HTevJt2OMKYRtue";
+const API = "https://script.google.com/macros/s/AKfycbxQy7XkoVN-ywTo0ylfPy97eeM925IXgKQ9KKALbAOSRVxLPLKS6HTevJt2OMKYRtue/exec";
 
-// โหลด Dropdown
+const modeTabs = document.querySelectorAll(".tab");
+let mode = "buy";
+
+// Tab switching
+modeTabs.forEach(t => {
+  t.addEventListener("click", () => {
+    modeTabs.forEach(x => x.classList.remove("active"));
+    t.classList.add("active");
+    mode = t.dataset.mode;
+    loadOptions();
+  });
+});
+
+// Load dropdown options
 async function loadOptions() {
   const res = await fetch(API, {
     method: "POST",
     body: JSON.stringify({
       action: "getOptions",
-      mode: document.getElementById("mode").value
+      mode: mode
     })
   });
 
@@ -23,9 +36,8 @@ async function loadOptions() {
 }
 
 loadOptions();
-document.getElementById("mode").onchange = loadOptions;
 
-// Autofill ถ้าเลือกสินค้าที่เคยกรอก
+// Autofill on item change
 document.getElementById("item").onchange = async () => {
   const item = document.getElementById("item").value;
 
@@ -33,51 +45,55 @@ document.getElementById("item").onchange = async () => {
     method: "POST",
     body: JSON.stringify({
       action: "getLatestItem",
-      mode: document.getElementById("mode").value,
+      mode,
       item
     })
   });
 
-  const data = await res.json();
-  if (!data.found) return;
+  const d = await res.json();
+  if (!d.found) return;
 
-  const d = data.data;
+  const r = d.data;
 
-  document.getElementById("price").value = d[4];
-  document.getElementById("volume").value = d[5];
-  document.getElementById("quantity").value = d[6];
-  document.getElementById("unitPrice").value = d[7];
-  document.getElementById("note").value = d[8];
+  document.getElementById("price").value = r[4];
+  document.getElementById("volume").value = r[5];
+  document.getElementById("quantity").value = r[6];
+  document.getElementById("unitPrice").value = r[7];
+  document.getElementById("note").value = r[8];
 };
 
-// คำนวณราคาต่อหน่วย
+// Auto-calc unit price
 function calc() {
-  const p = parseFloat(document.getElementById("price").value) || 0;
-  const q = parseFloat(document.getElementById("quantity").value) || 1;
-  document.getElementById("unitPrice").value = (p / q).toFixed(2);
+  let p = parseFloat(price.value) || 0;
+  let q = parseFloat(quantity.value) || 1;
+  unitPrice.value = (p / q).toFixed(2);
 }
 
-document.getElementById("price").oninput = calc;
-document.getElementById("quantity").oninput = calc;
+price.oninput = calc;
+quantity.oninput = calc;
 
-// บันทึกข้อมูล
+// Save new entry
 document.getElementById("saveBtn").onclick = async () => {
   const payload = {
     action: "add",
-    mode: document.getElementById("mode").value,
+    mode,
     data: {
       date: document.getElementById("date").value,
-      vendor: document.getElementById("vendor").value,
-      item: document.getElementById("item").value,
-      category: document.getElementById("category").value,
-      price: document.getElementById("price").value,
-      volume: document.getElementById("volume").value,
-      quantity: document.getElementById("quantity").value,
-      unitPrice: document.getElementById("unitPrice").value,
-      note: document.getElementById("note").value,
+      vendor: vendor.value,
+      item: item.value,
+      category: category.value,
+      price: price.value,
+      volume: volume.value,
+      quantity: quantity.value,
+      unitPrice: unitPrice.value,
+      note: note.value
     }
   };
 
-  await fetch(API, { method: "POST", body: JSON.stringify(payload) });
-  alert("บันทึกสำเร็จ");
+  await fetch(API, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+
+  alert("Saved!");
 };
