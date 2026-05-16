@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Personal Care Logger</title>
-<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Personal Care Tracker</title>
+
+<link rel="stylesheet" href="style.css" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#007bff" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+
 </head>
 
 <body>
@@ -12,38 +17,45 @@
 <div class="container">
 
   <div class="tab-bar">
-    <div class="tab active" data-mode="buy">Buy</div>
-    <div class="tab" data-mode="survey">Survey</div>
+    <div class="tab active" data-mode="buy">Purchase</div>
+    <div class="tab" data-mode="survey">Price Check</div>
   </div>
 
   <div class="card">
-    <h3>รายละเอียดสินค้า</h3>
-    <select id="vendor"></select>
-    <select id="item"></select>
-    <select id="category"></select>
+    <h3>Product Info</h3>
+    <select id="vendor" placeholder="Vendor"></select>
+    <select id="item" placeholder="Item"></select>
+    <select id="category" placeholder="Category"></select>
   </div>
 
   <div class="card">
-    <h3>ราคา</h3>
-    <input id="price" type="number" placeholder="ราคา">
-    <input id="volume" type="number" placeholder="ปริมาตร">
-    <input id="quantity" type="number" placeholder="จำนวน">
-    <input id="unitPrice" readonly placeholder="ราคาต่อหน่วย">
+    <h3>Pricing</h3>
+    <input id="price" type="number" placeholder="Price" />
+    <input id="volume" type="number" placeholder="Volume" />
+    <input id="quantity" type="number" placeholder="Quantity" />
+    <input id="unitPrice" readonly placeholder="Unit Price" />
   </div>
 
   <div class="card">
-    <h3>อื่น ๆ</h3>
-    <input id="date" type="date">
-    <textarea id="note" placeholder="หมายเหตุ"></textarea>
+    <h3>Details</h3>
+    <input id="date" type="date" />
+    <textarea id="note" placeholder="Note"></textarea>
   </div>
 
-  <button id="saveBtn">บันทึกข้อมูล</button>
-  <button id="editBtn" class="hidden">ยืนยันการแก้ไข</button>
+  <button id="saveBtn">Save</button>
+  <button id="editBtn" class="hidden">Confirm Edit</button>
 
 </div>
 
 <a class="fab" id="fab">+</a>
 
 <script src="app.js"></script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
+}
+</script>
+
 </body>
 </html>
