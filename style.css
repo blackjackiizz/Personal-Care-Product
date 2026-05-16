@@ -1,5 +1,5 @@
 body {
-  background: linear-gradient(135deg, #e8f0ff, #f8fbff);
+  background: linear-gradient(135deg, #dff4ec, #f4fffa);
   margin: 0;
   padding: 20px;
   font-family: "Inter", sans-serif;
@@ -11,27 +11,35 @@ body {
 }
 
 .card {
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(12px);
+  background: white;
   padding: 18px;
   border-radius: 16px;
   margin-bottom: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
 }
 
 h3 {
   margin-top: 0;
   font-size: 18px;
+  color: #45BA85;
+}
+
+label {
+  font-size: 14px;
+  color: #333;
+  margin-top: 12px;
+  display: block;
 }
 
 input, select, textarea {
   width: 100%;
   padding: 12px;
-  margin-top: 10px;
+  margin-top: 6px;
   border-radius: 10px;
-  border: 1px solid #d0d0d0;
-  font-size: 16px;
-  background: white;
+  border: 1px solid #c8c8c8;
+  font-size: 15px;
+  background: #ffffff;
+  box-sizing: border-box;
 }
 
 button {
@@ -40,9 +48,10 @@ button {
   font-size: 18px;
   border-radius: 12px;
   border: none;
-  background: #007bff;
+  background: #45BA85;
   color: white;
   margin-top: 10px;
+  cursor: pointer;
 }
 
 .tab-bar {
@@ -53,16 +62,17 @@ button {
 
 .tab {
   flex: 1;
-  background: #e5e5e5;
   padding: 12px;
   border-radius: 10px;
   text-align: center;
-  cursor: pointer;
+  background: #cdeee1;
+  color: #333;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .tab.active {
-  background: #007bff;
+  background: #45BA85;
   color: white;
 }
 
@@ -70,14 +80,48 @@ button {
   position: fixed;
   right: 18px;
   bottom: 18px;
-  background: #007bff;
+  background: #45BA85;
   color: white;
   font-size: 24px;
   padding: 18px 22px;
   border-radius: 50%;
-  text-align: center;
-  cursor: pointer;
   box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  cursor: pointer;
+}
+
+.row-input {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.add-btn {
+  background: #45BA85;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  width: 80%;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
 }
 
 .hidden {
