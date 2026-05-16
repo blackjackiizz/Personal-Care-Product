@@ -1,49 +1,48 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<link rel="manifest" href="manifest.json">
-<link rel="icon" sizes="192x192" href="icons/icon-192.png">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-<meta name="theme-color" content="#007bff">
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Personal Care Logger</title>
-<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <div class="container">
-  <h2>บันทึกข้อมูลสินค้า</h2>
 
-  <select id="mode">
-    <option value="buy">Buy</option>
-    <option value="survey">Survey</option>
-  </select>
+  <div class="tab-bar">
+    <div class="tab active" data-mode="buy">Buy</div>
+    <div class="tab" data-mode="survey">Survey</div>
+  </div>
 
-  <select id="vendor"></select>
-  <select id="item"></select>
-  <select id="category"></select>
+  <div class="card">
+    <h3>รายละเอียดสินค้า</h3>
+    <select id="vendor"></select>
+    <select id="item"></select>
+    <select id="category"></select>
+  </div>
 
-  <input id="date" type="date" />
+  <div class="card">
+    <h3>ราคา</h3>
+    <input id="price" type="number" placeholder="ราคา">
+    <input id="volume" type="number" placeholder="ปริมาตร">
+    <input id="quantity" type="number" placeholder="จำนวน">
+    <input id="unitPrice" readonly placeholder="ราคาต่อหน่วย">
+  </div>
 
-  <input id="price" type="number" placeholder="ราคา" />
-  <input id="volume" type="number" placeholder="ปริมาตร" />
-  <input id="quantity" type="number" placeholder="จำนวน" />
-
-  <input id="unitPrice" readonly placeholder="ราคาต่อหน่วย" />
-
-  <textarea id="note" placeholder="หมายเหตุ..."></textarea>
+  <div class="card">
+    <h3>อื่น ๆ</h3>
+    <input id="date" type="date">
+    <textarea id="note" placeholder="หมายเหตุ"></textarea>
+  </div>
 
   <button id="saveBtn">บันทึกข้อมูล</button>
   <button id="editBtn" class="hidden">ยืนยันการแก้ไข</button>
+
 </div>
-<link rel="manifest" href="manifest.json">
-<script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js");
-  }
-</script>
+
+<a class="fab" id="fab">+</a>
 
 <script src="app.js"></script>
 </body>
