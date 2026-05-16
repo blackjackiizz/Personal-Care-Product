@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saved Records</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+  <h2 style="color:#45BA85;">Saved Records</h2>
+
+  <div class="card">
+    <h3>Filters</h3>
+
+    <input id="searchBox" placeholder="Search anything...">
+
+    <select id="filterProduct"></select>
+    <select id="filterVendor"></select>
+    <select id="filterType"></select>
+
+    <input type="date" id="filterStart">
+    <input type="date" id="filterEnd">
+
+    <button id="applyFilter">Apply</button>
+    <button id="clearFilter">Clear</button>
+  </div>
+
+  <div class="view-switch">
+    <button id="viewTable">Table View</button>
+    <button id="viewCard">Card View</button>
+  </div>
+
+  <!-- Table View -->
+  <div id="tableArea" class="card">
+    <table id="recordTable">
+      <thead>
+        <tr>
+          <th data-sort="date">Date</th>
+          <th data-sort="item">Product</th>
+          <th data-sort="vendor">Vendor</th>
+          <th data-sort="price">Price</th>
+          <th data-sort="unit">Unit</th>
+          <th data-sort="type">Type</th>
+          <th data-sort="note">Note</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div id="pagination"></div>
+  </div>
+
+  <!-- Card View -->
+  <div id="cardArea" class="hidden"></div>
+
+</div>
+
+<script src="data-view.js"></script>
+
+</body>
+</html>
