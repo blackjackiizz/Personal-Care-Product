@@ -1,17 +1,25 @@
 const API = "https://script.google.com/macros/s/AKfycbxQy7XkoVN-ywTo0ylfPy97eeM925IXgKQ9KKALbAOSRVxLPLKS6HTevJt2OMKYRtue/exec";
 
-const modeTabs = document.querySelectorAll(".tab");
 let mode = "buy";
+let vendorList = [];
+let typeList = [];
 
 // Tab switching
-modeTabs.forEach(t => {
+document.querySelectorAll(".tab").forEach(t => {
   t.addEventListener("click", () => {
-    modeTabs.forEach(x => x.classList.remove("active"));
+    document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
     t.classList.add("active");
     mode = t.dataset.mode;
     loadOptions();
   });
 });
+
+// Auto timestamp
+function updateTimestamp() {
+  document.getElementById("timestamp").value =
+    new Date().toISOString().replace("T", " ").substring(0, 19);
+}
+updateTimestamp();
 
 // Load dropdown options
 async function loadOptions() {
@@ -19,66 +27,78 @@ async function loadOptions() {
     method: "POST",
     body: JSON.stringify({
       action: "getOptions",
-      mode: mode
+      mode
     })
   });
 
   const data = await res.json();
 
-  document.getElementById("vendor").innerHTML =
-    data.vendors.map(v => `<option>${v}</option>`).join("");
+  vendorList = data.vendors;
+  typeList = data.categories;
 
-  document.getElementById("item").innerHTML =
-    data.items.map(v => `<option>${v}</option>`).join("");
+  document.getElementById("vendor").innerHTML =
+    vendorList.map(v => `<option>${v}</option>`).join("");
 
   document.getElementById("category").innerHTML =
-    data.categories.map(v => `<option>${v}</option>`).join("");
+    typeList.map(v => `<option>${v}</option>`).join("");
 }
-
 loadOptions();
 
-// Autofill on item change
-document.getElementById("item").onchange = async () => {
-  const item = document.getElementById("item").value;
+// Add vendor
+document.getElementById("addVendorBtn").onclick = () =>
+  document.getElementById("vendorModal").classList.remove("hidden");
 
-  const res = await fetch(API, {
-    method: "POST",
-    body: JSON.stringify({
-      action: "getLatestItem",
-      mode,
-      item
-    })
-  });
+document.getElementById("closeVendor").onclick = () =>
+  document.getElementById("vendorModal").classList.add("hidden");
 
-  const d = await res.json();
-  if (!d.found) return;
-
-  const r = d.data;
-
-  document.getElementById("price").value = r[4];
-  document.getElementById("volume").value = r[5];
-  document.getElementById("quantity").value = r[6];
-  document.getElementById("unitPrice").value = r[7];
-  document.getElementById("note").value = r[8];
+document.getElementById("saveVendor").onclick = () => {
+  const v = document.getElementById("newVendor").value.trim();
+  if (!v) return;
+  vendorList.push(v);
+  document.getElementById("vendor").innerHTML =
+    vendorList.map(x => `<option>${x}</option>`).join("");
+  document.getElementById("vendorModal").classList.add("hidden");
 };
 
-// Auto-calc unit price
+// Add type
+document.getElementById("addTypeBtn").onclick = () =>
+  document.getElementById("typeModal").classList.remove("hidden");
+
+document.getElementById("closeType").onclick = () =>
+  document.getElementById("typeModal").classList.add("hidden");
+
+document.getElementById("saveType").onclick = () => {
+  const t = document.getElementById("newType").value.trim();
+  if (!t) return;
+  typeList.push(t);
+  document.getElementById("category").innerHTML =
+    typeList.map(x => `<option>${x}</option>`).join("");
+  document.getElementById("typeModal").classList.add("hidden");
+};
+
+// Auto-calc unit price (no negative)
 function calc() {
-  let p = parseFloat(price.value) || 0;
-  let q = parseFloat(quantity.value) || 1;
+  const p = Math.max(0, parseFloat(price.value) || 0);
+  const q = Math.max(1, parseFloat(quantity.value) || 1);
+
+  price.value = p;
+  quantity.value = q;
+
   unitPrice.value = (p / q).toFixed(2);
 }
 
 price.oninput = calc;
 quantity.oninput = calc;
 
-// Save new entry
+// Save entry
 document.getElementById("saveBtn").onclick = async () => {
+  updateTimestamp();
+
   const payload = {
     action: "add",
     mode,
     data: {
-      date: document.getElementById("date").value,
+      date: document.getElementById("timestamp").value,
       vendor: vendor.value,
       item: item.value,
       category: category.value,
