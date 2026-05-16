@@ -7,7 +7,7 @@
 
 <link rel="stylesheet" href="style.css" />
 <link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#007bff" />
+<meta name="theme-color" content="#45BA85" />
 <link rel="apple-touch-icon" href="icons/icon-192.png" />
 
 </head>
@@ -23,34 +23,65 @@
 
   <div class="card">
     <h3>Product Info</h3>
-    <select id="vendor" placeholder="Vendor"></select>
-    <select id="item" placeholder="Item"></select>
-    <select id="category" placeholder="Category"></select>
+
+    <label>Vendor</label>
+    <div class="row-input">
+      <select id="vendor"></select>
+      <button class="add-btn" id="addVendorBtn">+</button>
+    </div>
+
+    <label>Product</label>
+    <input id="item" type="text" placeholder="Enter product name" />
+
+    <label>Type</label>
+    <div class="row-input">
+      <select id="category"></select>
+      <button class="add-btn" id="addTypeBtn">+</button>
+    </div>
   </div>
 
   <div class="card">
     <h3>Pricing</h3>
-    <input id="price" type="number" placeholder="Price" />
-    <input id="volume" type="number" placeholder="Volume" />
-    <input id="quantity" type="number" placeholder="Quantity" />
+    <input id="price" type="number" min="0" placeholder="Price" />
+    <input id="volume" type="number" min="0" placeholder="Volume" />
+    <input id="quantity" type="number" min="1" placeholder="Quantity" />
     <input id="unitPrice" readonly placeholder="Unit Price" />
   </div>
 
   <div class="card">
     <h3>Details</h3>
-    <input id="date" type="date" />
+    <input id="timestamp" type="text" readonly placeholder="Auto timestamp" />
     <textarea id="note" placeholder="Note"></textarea>
   </div>
 
   <button id="saveBtn">Save</button>
   <button id="editBtn" class="hidden">Confirm Edit</button>
-
 </div>
 
+<!-- Floating add button -->
 <a class="fab" id="fab">+</a>
 
-<script src="app.js"></script>
+<!-- Add new vendor modal -->
+<div id="vendorModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Add Vendor</h3>
+    <input id="newVendor" placeholder="Vendor name" />
+    <button id="saveVendor">Save</button>
+    <button id="closeVendor">Cancel</button>
+  </div>
+</div>
 
+<!-- Add new type modal -->
+<div id="typeModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Add Type</h3>
+    <input id="newType" placeholder="Type name" />
+    <button id="saveType">Save</button>
+    <button id="closeType">Cancel</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
 <script>
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("service-worker.js");
