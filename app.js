@@ -1,4 +1,4 @@
-const API = "https://script.google.com/macros/s/AKfycbxQy7XkoVN-ywTo0ylfPy97eeM925IXgKQ9KKALbAOSRVxLPLKS6HTevJt2OMKYRtue/exec";
+const API = "https://script.google.com/macros/s/AKfycbw1Rp0cv5Es6lllwlWjej2g1nsxm63Is302LNsSZdwV7got2UPLdzu_kaQ4CNDeh-U/exec";
 
 // Application Memory States
 let mode = "buy";
