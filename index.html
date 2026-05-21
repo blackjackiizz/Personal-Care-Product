@@ -60,25 +60,6 @@
         ```
 
 ---
-
-### 4. Fixing the Data Submission to Spreadsheet (JavaScript Update)
-When web browsers send data to Google Apps Script, they can get blocked by "CORS" (Cross-Origin Resource Sharing) or a missing redirect policy. Also, we will update the math to format as THB.
-
-In your **`app.js`**, make these two changes:
-
-**A. Update the `calc()` function to add the Baht symbol:**
-```javascript
-function calc() {
-  // Use parseInt for integer math
-  const p = Math.max(0, parseInt(document.getElementById("price").value) || 0);
-  const q = Math.max(1, parseInt(hiddenQtyInput.value) || 1);
-  
-  document.getElementById("price").value = p ? p : "";
-  hiddenQtyInput.value = q;
-  // Format Unit Price with THB Symbol
-  document.getElementById("unitPrice").value = "฿ " + (p / q).toFixed(2); 
-}
-
         <label>Quantity Selection</label>
         <select id="quantitySelect">
           <option value="1">1</option>
